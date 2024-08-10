@@ -7,19 +7,19 @@ export default async function Page({ params }: { params: { id: string } }) {
     const page = await getPage(pageId);
 
     const extractTitle = (property: any): string => {
-        // Assurer que la propriété est de type title
-        if (property?.type === "title" && property.title.length > 0) {
-            console.log("property:", property);
-            return property.title[0]?.plain_text || "Sans titre";
-        }
-        return "Sans titre";
+        // Vérifie que la propriété est de type title et qu'elle a au moins un élément
+        return property?.type === "title" && property.title.length > 0
+            ? property.title[0]?.plain_text || "Sans titre"
+            : "Sans titre";
     };
+
+    const titre = extractTitle(page.properties.Nom);
 
     return (
         <div>
             <h1>Recipe page {page.id}</h1>
 
-            <p>{extractTitle(page.properties.Nom)}</p>
+            <p>{titre}</p>
         </div>
     );
 }
