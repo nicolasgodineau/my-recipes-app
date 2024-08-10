@@ -6,7 +6,7 @@ import {
     BlockObjectResponse,
     ListBlockChildrenResponse,
 } from "@notionhq/client/build/src/api-endpoints";
-import { NotionPage } from "@/app/types/notion";
+import * as NotionTypes from "@/app/types/notion";
 
 // Initialiser le client Notion avec le token d'authentification
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
@@ -53,43 +53,16 @@ export async function getBlocks(
     return blocks;
 }
 
-// lib/notion.ts
-//
-// Interface pour représenter le titre d'une propriété Notion
-export interface NotionTitleProperty {
-    type: "title";
-    title: NotionText[];
-}
-
-// Interface pour représenter le texte dans les blocs Notion
-export interface NotionText {
-    plain_text: string;
-}
-
-// Interface de base pour les blocs Notion
-export interface NotionBlock {
-    type: string; // Type du bloc (ex: "heading_2", "paragraph", etc.)
-    [key: string]: any; // Propriétés additionnelles spécifiques à chaque type de bloc
-}
-
-// Type pour un tableau de blocs Notion
-export type NotionBlocks = NotionBlock[];
-
-// Interface spécifique pour les blocs de type "heading_2"
-export interface NotionHeading2 {
-    type: "heading_2"; // Type du bloc
-    heading_2: {
-        rich_text: NotionText[]; // Liste des textes riches dans le bloc
-    };
-}
-
 // Fonction pour extraire les titres de type "heading_2" des blocs Notion
-export const extractHeading2 = (blocks: NotionBlock[]): string[] => {
+export const extractHeading2 = (
+    blocks: NotionTypes.NotionBlock[]
+): string[] => {
     return (
         blocks
             // Filtrer les blocs pour ne conserver que ceux de type "heading_2"
             .filter(
-                (block): block is NotionHeading2 => block.type === "heading_2"
+                (block): block is NotionTypes.NotionHeading2 =>
+                    block.type === "heading_2"
             )
             // Extraire le texte riche du bloc et récupérer le plain_text
             .map((block) => block.heading_2.rich_text[0]?.plain_text)
@@ -109,17 +82,6 @@ export const extractTitle = (property: any): string => {
     return "Sans titre";
 };
 
-// Interface pour représenter un fichier Notion
-export interface NotionFile {
-    url: string; // URL du fichier
-}
-
-// Interface pour représenter une propriété de type "files"
-export interface NotionFiles {
-    type: "files"; // Type de la propriété
-    files: NotionFile[]; // Liste des fichiers
-}
-
 // Fonction pour extraire les URLs des fichiers d'une propriété "files"
 export const extractUrl = (element: any): string => {
     // Vérifie si la propriété "Photo" existe et contient des fichiers
@@ -134,21 +96,14 @@ export const extractUrl = (element: any): string => {
     return ""; // Retourne une chaîne vide si aucune URL n'est trouvée
 };
 
-// Interface pour un bloc de type todo
-export interface NotionToDo {
-    type: "to_do";
-    to_do: {
-        rich_text: NotionText[];
-        checked: boolean;
-    };
-}
-
 // Fonction d'extraction pour les blocs "to_do"
 export const extractToDo = (
-    blocks: NotionBlock[]
+    blocks: NotionTypes.NotionBlock[]
 ): { text: string; checked: boolean }[] => {
     return blocks
-        .filter((block): block is NotionToDo => block.type === "to_do")
+        .filter(
+            (block): block is NotionTypes.NotionToDo => block.type === "to_do"
+        )
         .map((block) => ({
             text: block.to_do.rich_text[0]?.plain_text || "",
             checked: block.to_do.checked,
@@ -156,20 +111,15 @@ export const extractToDo = (
         .filter((item) => item.text !== "");
 };
 
-// Interface pour un bloc de type paragraphe
-export interface NotionParagraph {
-    type: "paragraph";
-    paragraph: {
-        rich_text: NotionText[];
-    };
-}
-
 // Fonction d'extraction pour les blocs "paragraph"
 export const extractParagraphs = (
-    blocks: NotionBlock[]
+    blocks: NotionTypes.NotionBlock[]
 ): { text: string }[] => {
     return blocks
-        .filter((block): block is NotionParagraph => block.type === "paragraph")
+        .filter(
+            (block): block is NotionTypes.NotionParagraph =>
+                block.type === "paragraph"
+        )
         .map((block) => ({
             // Concaténer tous les éléments rich_text pour former le texte complet du paragraphe
             text:
