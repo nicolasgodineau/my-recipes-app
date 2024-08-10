@@ -19,7 +19,6 @@ export async function getDatabase(
         database_id: databaseId,
     });
 
-    // Filtrer les résultats pour s'assurer qu'ils sont tous des objets de page complets
     const pages = response.results.filter(
         (result): result is PageObjectResponse => "properties" in result
     );
@@ -37,3 +36,75 @@ export async function getPage(pageId: string): Promise<PageObjectResponse> {
 
     throw new Error("The retrieved page is not a full page object.");
 }
+
+// Fonction pour récupérer les blocs enfants d'un bloc donné
+export async function getBlocks(
+    blockId: string
+): Promise<BlockObjectResponse[]> {
+    const response = await notion.blocks.children.list({
+        block_id: blockId,
+    });
+
+    // Filtrer les résultats pour ne conserver que les objets BlockObjectResponse
+    const blocks: BlockObjectResponse[] = response.results.filter(
+        (result): result is BlockObjectResponse => result.object === "block"
+    );
+
+    return blocks;
+}
+
+// lib/notion.ts
+//
+// Interface pour représenter le titre d'une propriété Notion
+export interface NotionTitleProperty {
+    type: "title";
+    title: NotionText[];
+}
+
+// Interface pour représenter le texte dans les blocs Notion
+export interface NotionText {
+    plain_text: string;
+}
+
+// Interface de base pour les blocs Notion
+export interface NotionBlock {
+    type: string; // Type du bloc (ex: "heading_2", "paragraph", etc.)
+    [key: string]: any; // Propriétés additionnelles spécifiques à chaque type de bloc
+}
+
+// Type pour un tableau de blocs Notion
+export type NotionBlocks = NotionBlock[];
+
+// Interface spécifique pour les blocs de type "heading_2"
+export interface NotionHeading2 {
+    type: "heading_2"; // Type du bloc
+    heading_2: {
+        rich_text: NotionText[]; // Liste des textes riches dans le bloc
+    };
+}
+
+// Fonction pour extraire les titres de type "heading_2" des blocs Notion
+export const extractHeading2 = (blocks: NotionBlock[]): string[] => {
+    return (
+        blocks
+            // Filtrer les blocs pour ne conserver que ceux de type "heading_2"
+            .filter(
+                (block): block is NotionHeading2 => block.type === "heading_2"
+            )
+            // Extraire le texte riche du bloc et récupérer le plain_text
+            .map((block) => block.heading_2.rich_text[0]?.plain_text)
+            // Filtrer les valeurs falsy pour ne conserver que les chaînes de caractères non vides
+            .filter(Boolean)
+    );
+};
+
+// Fonction pour extraire le titre d'une propriété de type "title"
+export const extractTitle = (property: any): string => {
+    // Vérifier que la propriété est de type "title" et qu'elle contient des éléments
+    if (property?.type === "title" && property.title.length > 0) {
+        // Extraire le texte du premier élément de "title"
+        return property.title[0]?.plain_text || "Sans titre";
+    }
+    // Retourner "Sans titre" si la propriété n'est pas valide ou est vide
+    return "Sans titre";
+};
