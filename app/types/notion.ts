@@ -1,13 +1,21 @@
 // types/notion.ts
-export interface PageProperties {
-    [key: string]: {
-        id: string;
-        type: string;
-        title?: Array<{ text: { content: string } }>;
+export interface NotionText {
+    text: {
+        content: string;
     };
 }
 
-export interface CustomPageResponse {
+export interface NotionTitleProperty {
+    type: "title";
+    title: NotionText[];
+}
+
+export interface NotionPageProperties {
+    Nom?: NotionTitleProperty;
+    // Ajoute d'autres propriétés ici si nécessaire
+}
+
+export interface NotionPage {
     id: string;
-    properties: PageProperties;
+    properties: NotionPageProperties;
 }
