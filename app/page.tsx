@@ -9,7 +9,7 @@ export default async function Home() {
 
     return (
         <section className="flex flex-col items-center justify-center gap-4 md:py-10 boxBg">
-            <h1 className="max-w-xl flex flex-col items-start p-2 text-gray-800 max-sm:text-4xl leading-9 lg:text-5xl font-semibold">
+            <h1 className=" flex flex-col items-start p-2 text-gray-800 max-sm:text-4xl leading-9 lg:text-5xl font-semibold">
                 <span>
                     Create delicious&nbsp; {""}
                     <span className="bg-gradient-to-b from-[#FF1CF7] to-[#b249f8] inline-block text-transparent bg-clip-text">

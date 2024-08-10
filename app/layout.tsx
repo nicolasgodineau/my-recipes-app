@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={inter.className}>
+            <body className="min-h-screen bg-primary font-sans antialiased">
                 {" "}
                 <main className="container mx-auto max-w-7xl p-2 lg:p-6 flex-grow">
                     {children}
