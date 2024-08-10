@@ -5,7 +5,7 @@ import {
     extractHeading2,
     extractTitle,
 } from "@/app/lib/notion";
-import { Metadata } from "next";
+import BackButton from "../components/BackButton";
 
 export default async function Page({ params }: { params: { id: string } }) {
     const pageId = params.id;
@@ -21,7 +21,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
     return (
         <div>
-            <h1>Recipe page</h1>
+            <BackButton />
 
             <p>{title}</p>
             <h2>{heading2[0]}</h2>
