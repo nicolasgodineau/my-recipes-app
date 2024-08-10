@@ -108,3 +108,28 @@ export const extractTitle = (property: any): string => {
     // Retourner "Sans titre" si la propriété n'est pas valide ou est vide
     return "Sans titre";
 };
+
+// Interface pour représenter un fichier Notion
+export interface NotionFile {
+    url: string; // URL du fichier
+}
+
+// Interface pour représenter une propriété de type "files"
+export interface NotionFiles {
+    type: "files"; // Type de la propriété
+    files: NotionFile[]; // Liste des fichiers
+}
+
+// Fonction pour extraire les URLs des fichiers d'une propriété "files"
+export const extractUrl = (element: any): string => {
+    // Vérifie si la propriété "Photo" existe et contient des fichiers
+    const filesProperty = element.properties?.Photo?.files;
+
+    if (filesProperty && filesProperty.length > 0) {
+        const file = filesProperty[0];
+        if (file?.type === "file") {
+            return file.file.url; // Retourne l'URL du fichier
+        }
+    }
+    return ""; // Retourne une chaîne vide si aucune URL n'est trouvée
+};
