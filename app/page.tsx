@@ -1,11 +1,14 @@
 // app/page.tsx
-import { getDatabase } from "@/app/lib/notion";
+import { getDatabase, extractKeywords } from "@/app/lib/notion";
 
 import Link from "next/link";
 
 export default async function Home() {
     const databaseId = process.env.NOTION_DATABASE_ID!;
     const recipesList = await getDatabase(databaseId);
+
+    const mot = extractKeywords(recipesList);
+    console.log("mot:", mot);
 
     return (
         <section className="flex flex-col items-center justify-center gap-4 md:py-10 boxBg">

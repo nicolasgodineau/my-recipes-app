@@ -135,3 +135,22 @@ export const extractParagraphs = (
         }))
         .filter((item) => item.text !== "");
 };
+
+// Fonction pour extraire les mots-clés de type multi_select
+export const extractKeywords = (
+    pages: NotionTypes.PageWithMultiSelect[]
+): string[] => {
+    // Étape 1: Aplatir les options multi_select de chaque page
+    const allOptions = pages.flatMap(
+        (page) => page.properties.Mots_cles.multi_select
+    );
+
+    // Étape 2: Extraire le nom de chaque option
+    const keywordsNames = allOptions.map((option) => option.name);
+
+    // Étape 3: Filtrer les valeurs vides
+    const filteredKeywords = keywordsNames.filter((name) => name !== "");
+    console.log("filteredKeywords:", filteredKeywords);
+
+    return filteredKeywords;
+};
