@@ -17,6 +17,12 @@ export async function getDatabase(
 ): Promise<PageObjectResponse[]> {
     const response: QueryDatabaseResponse = await notion.databases.query({
         database_id: databaseId,
+        filter: {
+            property: "Types",
+            select: {
+                equals: "Salés",
+            },
+        },
     });
 
     const pages = response.results.filter(
