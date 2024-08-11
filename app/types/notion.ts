@@ -54,24 +54,24 @@ export interface NotionParagraph {
     };
 }
 
-// Interface pour représenter une option dans une propriété multi_select
+// Interface pour représenter une option multi_select
 export interface MultiSelectOption {
-    id: string; // ID de l'option
-    name: string; // Nom de l'option
-    color: string; // Couleur de l'option (facultatif)
+    id: string;
+    name: string;
+    color: string;
 }
 
-// Interface pour représenter une propriété de type "multi_select"
+// Interface pour une propriété multi_select dans une page
 export interface MultiSelectProperty {
-    type: "multi_select"; // Type de la propriété
+    type: "multi_select";
     multi_select: {
-        options: MultiSelectOption[]; // Liste des options multi_select
+        options: MultiSelectOption[];
     };
 }
 
-// Interface pour représenter une page avec une propriété multi_select
+// Interface pour une page avec une propriété multi_select
 export interface PageWithMultiSelect {
     properties: {
-        Mots_cles: MultiSelectProperty; // Propriété multi_select
+        Mots_cles: MultiSelectProperty;
     };
 }
