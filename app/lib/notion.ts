@@ -135,3 +135,26 @@ export const extractParagraphs = (
         }))
         .filter((item) => item.text !== "");
 };
+
+// Fonction pour extraire et filtrer les mots clés uniques
+export function getUniqueMotsClesList(
+    pages: NotionTypes.PageWithMultiSelect[]
+): string[] {
+    // Extraire tous les mots clés multi_select
+    const motsClesList: string[] = pages.flatMap((recipe) => {
+        if (recipe.properties.Mots_cles?.type === "multi_select") {
+            const motsCles = recipe.properties.Mots_cles;
+            // Extraire les noms des options multi_select
+            return motsCles.multi_select.map((option) => option.name);
+        } else {
+            console.error(
+                "Mots_cles n'est pas de type multi_select:",
+                recipe.properties.Mots_cles
+            );
+            return []; // Retourne un tableau vide si ce n'est pas un multi_select
+        }
+    });
+
+    // Filtrer les doublons en utilisant un Set
+    return Array.from(new Set(motsClesList.filter((name) => name !== "")));
+}

@@ -9,10 +9,14 @@ const config: Config = {
     theme: {
         extend: {
             colors: {
-                primary: "#ecf0f3", // Couleur principale pour le thème clair
-                secondary: "#334155", // Couleur secondaire pour le thème clair
+                primary: "#25614D", // Couleur principale pour le thème clair
+                secondary: "#A8D4A3", // Couleur secondaire pour le thème clair
                 darkPrimary: "#334155", // Couleur principale pour le thème sombre
                 darkSecondary: "#e5e7eb", // Couleur secondaire pour le thème sombre
+                background: "#EAE6DB",
+                background2: "#F0F0F0",
+                background3: "#EBEAD6",
+                textColor: "#DDD",
             },
         },
     },
