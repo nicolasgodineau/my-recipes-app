@@ -140,37 +140,9 @@ export const extractParagraphs = (
 export const extractKeywords = (
     pages: NotionTypes.PageWithMultiSelect[]
 ): string[] => {
-    // Étape 1: Aplatir les options multi_select de chaque page
-    const allOptions = pages.flatMap(
-        (page) =>
-            page.properties.Mots_cles.multi_select
-                .options as NotionTypes.MultiSelectOption[]
-    );
+    // Afficher les pages dans la console
+    //console.log("Pages:", pages);
 
-    // Vérifie que allOptions est un tableau
-    if (!Array.isArray(allOptions)) {
-        console.error("allOptions n'est pas un tableau");
-        return [];
-    }
-
-    // Assure-toi que chaque élément est bien défini et possède la propriété `name`
-    allOptions.forEach((option, index) => {
-        if (typeof option !== "object" || !option || !("name" in option)) {
-            console.error(`Option invalide à l'index ${index}:`, option);
-        }
-    });
-
-    // Map les noms en s'assurant que l'option est bien définie
-    const keywordsNames = allOptions.map((option) => {
-        if (option && "name" in option) {
-            return option.name;
-        } else {
-            console.error("Option invalide, pas de propriété 'name':", option);
-            return "";
-        }
-    });
-
-    const filteredKeywords = keywordsNames.filter((name) => name !== "");
-
-    return filteredKeywords;
+    // Retourne un tableau vide car le code d'extraction est supprimé
+    return [];
 };

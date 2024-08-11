@@ -72,6 +72,6 @@ export interface MultiSelectProperty {
 // Interface pour une page avec une propriété multi_select
 export interface PageWithMultiSelect {
     properties: {
-        Mots_cles: MultiSelectProperty;
+        Mots_cles?: MultiSelectProperty; // Rendre Mots_cles optionnel
     };
 }

@@ -6,6 +6,10 @@ import Link from "next/link";
 export default async function Home() {
     const databaseId = process.env.NOTION_DATABASE_ID!;
     const recipesList = await getDatabase(databaseId);
+    //console.log("recipesList:", recipesList);
+
+    const mots = extractKeywords(recipesList);
+    console.log("mots:", mots);
 
     return (
         <section className="flex flex-col items-center justify-center gap-4 md:py-10 boxBg">
