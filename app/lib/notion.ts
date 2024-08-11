@@ -10,24 +10,41 @@ import * as NotionTypes from "@/app/types/notion";
 
 // Initialiser le client Notion avec le token d'authentification
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
+const cache = new Map<string, PageObjectResponse[]>();
 
-// Fonction pour récupérer les pages d'une base de données
 export async function getDatabase(
-    databaseId: string
+    databaseId: string,
+    classement?: string
 ): Promise<PageObjectResponse[]> {
+    const cacheKey = `${databaseId}-${classement || "all"}`;
+    if (cache.has(cacheKey)) {
+        return cache.get(cacheKey)!;
+    }
+
+    const filter: any = {
+        property: "Types",
+        select: {
+            equals: "Salés",
+        },
+    };
+
+    if (classement) {
+        filter.property = "Classement";
+        filter.select = {
+            equals: classement,
+        };
+    }
+
     const response: QueryDatabaseResponse = await notion.databases.query({
         database_id: databaseId,
-        filter: {
-            property: "Types",
-            select: {
-                equals: "Salés",
-            },
-        },
+        filter,
     });
 
     const pages = response.results.filter(
         (result): result is PageObjectResponse => "properties" in result
     );
+
+    cache.set(cacheKey, pages);
     return pages;
 }
 
