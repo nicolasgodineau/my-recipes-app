@@ -61,17 +61,14 @@ export interface MultiSelectOption {
     color: string;
 }
 
-// Interface pour une propriété multi_select dans une page
 export interface MultiSelectProperty {
     type: "multi_select";
-    multi_select: {
-        options: MultiSelectOption[];
-    };
+    multi_select: MultiSelectOption[];
 }
 
-// Interface pour une page avec une propriété multi_select
 export interface PageWithMultiSelect {
     properties: {
-        Mots_cles?: MultiSelectProperty; // Rendre Mots_cles optionnel
+        Mots_cles: MultiSelectProperty;
+        [key: string]: any;
     };
 }

@@ -135,14 +135,3 @@ export const extractParagraphs = (
         }))
         .filter((item) => item.text !== "");
 };
-
-// Fonction pour extraire les noms des options multi_select
-export const extractKeywords = (
-    pages: NotionTypes.PageWithMultiSelect[]
-): string[] => {
-    // Afficher les pages dans la console
-    //console.log("Pages:", pages);
-
-    // Retourne un tableau vide car le code d'extraction est supprimé
-    return [];
-};

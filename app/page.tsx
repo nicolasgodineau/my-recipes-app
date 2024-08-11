@@ -1,15 +1,32 @@
 // app/page.tsx
-import { getDatabase, extractKeywords } from "@/app/lib/notion";
-
+import { getDatabase } from "@/app/lib/notion";
 import Link from "next/link";
 
 export default async function Home() {
     const databaseId = process.env.NOTION_DATABASE_ID!;
     const recipesList = await getDatabase(databaseId);
-    //console.log("recipesList:", recipesList);
 
-    const mots = extractKeywords(recipesList);
-    console.log("mots:", mots);
+    // Fonction pour extraire les noms des mots clés (ne marche pas dans le fichier lib)
+    const motsClesList: string[] = recipesList.flatMap((recipe) => {
+        if (recipe.properties.Mots_cles?.type === "multi_select") {
+            const motsCles = recipe.properties.Mots_cles;
+            // Extraire les noms des options multi_select
+            return motsCles.multi_select.map((option) => option.name);
+        } else {
+            console.error(
+                "Mots_cles n'est pas de type multi_select:",
+                recipe.properties.Mots_cles
+            );
+            return []; // Retourne un tableau vide si ce n'est pas un multi_select
+        }
+    });
+
+    // Filtrer les doublons en utilisant un Set
+    const uniqueMotsClesList = Array.from(
+        new Set(motsClesList.filter((name) => name !== ""))
+    );
+
+    console.log("Liste des mots clés uniques:", uniqueMotsClesList);
 
     return (
         <section className="flex flex-col items-center justify-center gap-4 md:py-10 boxBg">
@@ -22,6 +39,17 @@ export default async function Home() {
                 </span>
                 <span>regardless of your cooking experience.</span>
             </h1>
+            <ul>
+                {uniqueMotsClesList.length > 0 ? (
+                    uniqueMotsClesList.map((motCle, index) => (
+                        <li key={index} className="text-lg">
+                            {motCle}
+                        </li>
+                    ))
+                ) : (
+                    <li>Aucun mot clé disponible</li>
+                )}
+            </ul>
             <div className=" grid gap-10 py-8 sm:grid-cols-1 lg:grid-cols-2 ">
                 {recipesList.slice(0, 2).map((recipes: any) => {
                     const title =
