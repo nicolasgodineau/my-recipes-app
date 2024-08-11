@@ -46,6 +46,22 @@ export interface NotionToDo {
     };
 }
 
+// Interface pour un bloc de type bulleted_list_item
+export interface NotionBulletedList {
+    type: "bulleted_list_item";
+    bulleted_list_item: {
+        rich_text: NotionText[];
+    };
+}
+
+// Interface pour un bloc de type numbered_list_item
+export interface NotionNumberedList {
+    type: "numbered_list_item";
+    numbered_list_item: {
+        rich_text: NotionText[];
+    };
+}
+
 // Interface pour un bloc de type paragraphe
 export interface NotionParagraph {
     type: "paragraph";

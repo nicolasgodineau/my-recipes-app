@@ -27,8 +27,8 @@ export default async function Home() {
     );
 
     return (
-        <section className="flex flex-col items-center justify-center gap-4 md:py-10 ">
-            <h1 className=" flex flex-col items-start p-2 text-primary max-sm:text-4xl leading-9 lg:text-5xl font-semibold">
+        <section className="flex flex-col items-center justify-center gap-12">
+            <h1 className=" flex flex-col items-start p-2 py-10 text-primary max-sm:text-4xl leading-9 lg:text-5xl font-semibold">
                 <span>
                     Create delicious&nbsp; {""}
                     <span className="bg-gradient-to-b from-[#C0E1C2] to-[#C0E1C2] inline-block text-transparent bg-clip-text">
@@ -51,8 +51,8 @@ export default async function Home() {
                     <li>Aucun mot clé disponible</li>
                 )}
             </div>
-            <div className=" grid gap-10 py-8 sm:grid-cols-1 lg:grid-cols-2 ">
-                {recipesList.slice(0, 4).map((recipes: any) => {
+            <div className=" grid gap-10 sm:grid-cols-1 lg:grid-cols-3 ">
+                {recipesList.map((recipes: any) => {
                     const title =
                         recipes.properties?.Nom?.title[0]?.plain_text ||
                         "Titre de la recette";

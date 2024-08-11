@@ -117,6 +117,32 @@ export const extractToDo = (
         .filter((item) => item.text !== "");
 };
 
+// Fonction d'extraction pour les blocs "bulleted_list_item"
+export const extractBulletedList = (
+    blocks: NotionTypes.NotionBlock[]
+): string[] => {
+    return blocks
+        .filter(
+            (block): block is NotionTypes.NotionBulletedList =>
+                block.type === "bulleted_list_item"
+        )
+        .map((block) => block.bulleted_list_item.rich_text[0]?.plain_text || "")
+        .filter((text) => text !== "");
+};
+
+// Fonction d'extraction pour les blocs "numbered_list_item"
+export const extractNumberedList = (
+    blocks: NotionTypes.NotionBlock[]
+): string[] => {
+    return blocks
+        .filter(
+            (block): block is NotionTypes.NotionNumberedList =>
+                block.type === "numbered_list_item"
+        )
+        .map((block) => block.numbered_list_item.rich_text[0]?.plain_text || "")
+        .filter((text) => text !== "");
+};
+
 // Fonction d'extraction pour les blocs "paragraph"
 export const extractParagraphs = (
     blocks: NotionTypes.NotionBlock[]
