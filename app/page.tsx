@@ -7,9 +7,6 @@ export default async function Home() {
     const databaseId = process.env.NOTION_DATABASE_ID!;
     const recipesList = await getDatabase(databaseId);
 
-    const mot = extractKeywords(recipesList);
-    console.log("mot:", mot);
-
     return (
         <section className="flex flex-col items-center justify-center gap-4 md:py-10 boxBg">
             <h1 className=" flex flex-col items-start p-2 text-gray-800 max-sm:text-4xl leading-9 lg:text-5xl font-semibold">
