@@ -1,6 +1,7 @@
 // app/page.tsx
 import { getDatabase } from "@/app/lib/notion";
 import Link from "next/link";
+import RecipeLink from "@/app/components/RecipeLink";
 
 const starRatings = ["⭐️", "⭐️⭐️", "⭐️⭐️⭐️"];
 
@@ -55,6 +56,7 @@ export default async function Home({
                 <span>regardless of your cooking experience.</span>
             </h1>
             <div className="flex flex-row gap-9">
+                {" "}
                 {/* Création des liens de filtrage avec les étoiles */}
                 {starRatings.map((rating) => (
                     <Link
@@ -87,32 +89,9 @@ export default async function Home({
                 )}
             </div>
             <div className=" grid gap-10 sm:grid-cols-1 lg:grid-cols-3 ">
-                {recipesList.map((recipes: any) => {
-                    const title =
-                        recipes.properties?.Nom?.title[0]?.plain_text ||
-                        "Titre de la recette";
-                    const srcImg =
-                        recipes.properties?.Photo?.files[0]?.file.url || "";
-
-                    return (
-                        <Link
-                            key={recipes.id}
-                            href={`/${recipes.id}`}
-                            className="max-w-sm cursor-pointer"
-                        >
-                            <div className="h-96 flex flex-col p-4 bg-default-200/30 dark:bg-default-100/30 w-auto rounded-2xl bg-background2/10 boxShadow">
-                                <img
-                                    alt={title}
-                                    className="h-3/4 w-auto object-cover rounded-xl shadow-lg shadow-black/15"
-                                    src={srcImg}
-                                />
-                                <h1 className="text-xl font-medium mt-2 text-primary py-2">
-                                    {title}
-                                </h1>
-                            </div>
-                        </Link>
-                    );
-                })}
+                {recipesList.map((recipe) => (
+                    <RecipeLink key={recipe.id} recipe={recipe} />
+                ))}
             </div>
         </section>
     );
