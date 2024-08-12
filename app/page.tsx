@@ -55,39 +55,7 @@ export default async function Home({
                 </span>
                 <span>regardless of your cooking experience.</span>
             </h1>
-            <div className="flex flex-row gap-9">
-                {" "}
-                {/* Création des liens de filtrage avec les étoiles */}
-                {starRatings.map((rating) => (
-                    <Link
-                        key={rating}
-                        href={`/?classement=${encodeURIComponent(rating)}`}
-                        className="bg-[#C0E1C2] text-primary py-1 px-4 rounded-full shadow-lg shadow-primary/20"
-                    >
-                        {rating}
-                    </Link>
-                ))}
-                <Link
-                    href="/"
-                    className="bg-[#C0E1C2] text-primary py-1 px-4 rounded-full shadow-lg shadow-primary/20"
-                >
-                    Toutes
-                </Link>
-            </div>
-            <aside className="flex flex-row gap-9">
-                {uniqueMotsClesList.length > 0 ? (
-                    uniqueMotsClesList.map((motCle, index) => (
-                        <div
-                            key={index}
-                            className="bg-[#C0E1C2] text-primary py-1 px-4 rounded-full shadow-lg shadow-primary/20"
-                        >
-                            {motCle}
-                        </div>
-                    ))
-                ) : (
-                    <li>Aucun mot clé disponible</li>
-                )}
-            </aside>
+
             <main className="w-full items-center justify-center grid gap-10 sm:grid-cols-1 lg:grid-cols-3 p-6 ">
                 {recipesList.map((recipe) => (
                     <RecipeLink key={recipe.id} recipe={recipe} />
