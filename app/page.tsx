@@ -45,7 +45,7 @@ export default async function Home({
     );
 
     return (
-        <section className="flex flex-col items-center justify-center gap-12">
+        <section className="w-full flex flex-col items-center justify-center gap-12">
             <h1 className=" flex flex-col items-start p-2 py-10 text-primary max-sm:text-4xl leading-9 lg:text-5xl font-semibold">
                 <span>
                     Create delicious&nbsp; {""}
@@ -74,7 +74,7 @@ export default async function Home({
                     Toutes
                 </Link>
             </div>
-            <div className="flex flex-row gap-9">
+            <aside className="flex flex-row gap-9">
                 {uniqueMotsClesList.length > 0 ? (
                     uniqueMotsClesList.map((motCle, index) => (
                         <div
@@ -87,12 +87,12 @@ export default async function Home({
                 ) : (
                     <li>Aucun mot clé disponible</li>
                 )}
-            </div>
-            <div className=" grid gap-10 sm:grid-cols-1 lg:grid-cols-3 ">
+            </aside>
+            <main className="w-full items-center justify-center grid gap-10 sm:grid-cols-1 lg:grid-cols-3 p-6 ">
                 {recipesList.map((recipe) => (
                     <RecipeLink key={recipe.id} recipe={recipe} />
                 ))}
-            </div>
+            </main>
         </section>
     );
 }

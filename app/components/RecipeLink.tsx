@@ -38,7 +38,7 @@ const RecipeLink: React.FC<RecipeLinkProps> = ({ recipe }) => {
         <Link
             key={recipe.id}
             href={`/${recipe.id}`}
-            className="max-w-sm cursor-pointer h-96 p-4 rounded-2xl bg-background2/10 boxShadow"
+            className="cursor-pointer h-96 p-4 rounded-2xl bg-background2/10 boxShadow"
         >
             <header className="h-3/5  w-auto  rounded-2xl  boxShadow">
                 <img
