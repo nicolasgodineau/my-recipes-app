@@ -45,18 +45,18 @@ export default async function Home({
     );
 
     return (
-        <section className="w-full flex flex-col items-center justify-center gap-12">
-            <h1 className=" flex flex-col items-start p-2 py-10 text-primary max-sm:text-4xl leading-9 lg:text-5xl font-semibold">
+        <section className="w-full px-4">
+            <h1 className=" flex flex-col items-start py-10 text-primary text-4xl leading-9 lg:text-5xl font-bold">
                 <span>
-                    Create delicious&nbsp; {""}
+                    Créez de délicieuses&nbsp; {""}
                     <span className="bg-gradient-to-b from-[#C0E1C2] to-[#C0E1C2] inline-block text-transparent bg-clip-text">
-                        recipes&nbsp;
+                        recettes&nbsp;
                     </span>
                 </span>
-                <span>regardless of your cooking experience.</span>
+                <span>quelle que soit votre expérience en cuisine.</span>
             </h1>
 
-            <main className="w-full items-center justify-center grid gap-10 sm:grid-cols-1 lg:grid-cols-3 p-6 ">
+            <main className="w-full items-center justify-center grid gap-10 sm:grid-cols-1 lg:grid-cols-3 ">
                 {recipesList.map((recipe) => (
                     <RecipeLink key={recipe.id} recipe={recipe} />
                 ))}

@@ -17,8 +17,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className="min-h-screen bg-background2 font-sans antialiased text-textColor">
-                {" "}
+            <body className="max-w-5xl m-auto bg-background2 font-sans antialiased text-textColor">
                 <main className="">{children}</main>
             </body>
         </html>
