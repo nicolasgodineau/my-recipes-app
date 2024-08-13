@@ -56,13 +56,11 @@ export default async function Page({ params }: { params: { id: string } }) {
                             </ul>
                         )}
                     </div>
-                    <div className="h-92 w-92 md:max-w-96 m-auto lg:m-0 lg:flex-grow rounded-xl boxShadow shadow-black/15">
-                        <img
-                            alt={title}
-                            className="h-full w-full object-cover lg:object-contain rounded-xl"
-                            src={files}
-                        />
-                    </div>
+                    <img
+                        alt={title}
+                        className="h-92 w-92 object-cover m-2 p-4 lg:object-contain rounded-xl boxShadow "
+                        src={files}
+                    />
                 </div>
                 <div className="flex flex-col flex-grow m-2 p-4 lg:flex-grow-0 rounded-xl bg-background2/10 boxShadow">
                     <div className="p-4 w-full rounded-xl innerBoxShadow max-sm:text-center">
