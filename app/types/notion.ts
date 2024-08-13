@@ -7,6 +7,15 @@ export interface NotionTitleProperty {
 // Interface pour représenter le texte dans les blocs Notion
 export interface NotionText {
     plain_text: string;
+    annotations: {
+        bold: boolean;
+        italic: boolean;
+        strikethrough: boolean;
+        underline: boolean;
+        code: boolean;
+        color: string; // Si tu as besoin d'utiliser la couleur
+    };
+    href?: string | null; // Si le texte peut contenir des liens
 }
 
 // Interface de base pour les blocs Notion

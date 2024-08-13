@@ -160,23 +160,40 @@ export const extractNumberedList = (
         .filter((text) => text !== "");
 };
 
-// Fonction d'extraction pour les blocs "paragraph"
+// Fonction d'extraction pour les blocs "paragraph" avec mise en forme
 export const extractParagraphs = (
     blocks: NotionTypes.NotionBlock[]
-): { text: string }[] => {
+): { formattedText: string }[] => {
     return blocks
         .filter(
             (block): block is NotionTypes.NotionParagraph =>
                 block.type === "paragraph"
         )
         .map((block) => ({
-            // Concaténer tous les éléments rich_text pour former le texte complet du paragraphe
-            text:
-                block.paragraph.rich_text
-                    .map((richText) => richText.plain_text)
-                    .join("") || "",
+            // Concaténer tous les éléments rich_text avec mise en forme
+            formattedText: block.paragraph.rich_text
+                .map((richText) => {
+                    let text = richText.plain_text;
+                    if (richText.annotations.bold) {
+                        text = `<strong>${text}</strong>`;
+                    }
+                    if (richText.annotations.italic) {
+                        text = `<em>${text}</em>`;
+                    }
+                    if (richText.annotations.strikethrough) {
+                        text = `<s>${text}</s>`;
+                    }
+                    if (richText.annotations.underline) {
+                        text = `<u>${text}</u>`;
+                    }
+                    if (richText.annotations.code) {
+                        text = `<code>${text}</code>`;
+                    }
+                    return text;
+                })
+                .join(""),
         }))
-        .filter((item) => item.text !== "");
+        .filter((item) => item.formattedText !== "");
 };
 
 // Fonction pour extraire et filtrer les mots clés uniques

@@ -11,11 +11,14 @@ import {
     extractNumberedList,
 } from "@/app/lib/notion";
 import BackButton from "../components/BackButton";
+import ParagraphsDisplay from "../components/ParagraphsDisplay";
 
 export default async function Page({ params }: { params: { id: string } }) {
     const pageId = params.id;
     const page = await getPage(pageId);
+    //console.log("page:", page);
     const blocks = await getBlocks(pageId);
+    //console.log("blocks:", blocks[26].paragraph.rich_text);
 
     /* Gestion du titre et de l'url de l'image */
     const title = extractTitle(page.properties.Nom);
@@ -73,21 +76,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                         numberedListItems.length > 0) && (
                         <>
                             {/* Affichage des paragraphes */}
-                            {paragraphs.length > 0 && (
-                                <ul className="pb-4">
-                                    {paragraphs.map((para, index) => (
-                                        <li key={index} className="my-2">
-                                            {para.text
-                                                .split("\n")
-                                                .map((line, i) => (
-                                                    <p key={i} className="my-2">
-                                                        {line}
-                                                    </p>
-                                                ))}
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
+                            <ParagraphsDisplay paragraphs={paragraphs} />
 
                             {/* Affichage des listes à puces */}
                             {bulletedListItems.length > 0 && (
