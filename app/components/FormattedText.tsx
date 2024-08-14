@@ -1,5 +1,5 @@
 // components/FormattedText.tsx
-import { NotionText } from "@types-app/notionTypes"; // Assure-toi que le chemin est correct
+import { NotionText } from "@types-app/notionTypes";
 import DOMPurify from "dompurify";
 
 // Fonction utilitaire pour formater le texte avec les annotations
