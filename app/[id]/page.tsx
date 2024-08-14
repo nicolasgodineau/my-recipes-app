@@ -21,7 +21,6 @@ export default async function Page({ params }: { params: { id: string } }) {
     const pageId = params.id;
     const page = await getPage(pageId);
     const blocks = await getBlocks(pageId);
-    //console.log("blocks:", blocks[2].heading_1);
 
     /* Gestion du titre et de l'url de l'image */
     const title = extractTitle(page.properties.Nom);
@@ -29,8 +28,6 @@ export default async function Page({ params }: { params: { id: string } }) {
 
     /* Gestion des différents type de blocs pour l'affichage */
     const headings = extractHeading(blocks);
-    console.log("headings:", headings[0].text);
-    //const heading2 = extractHeading2(blocks);
     const toDos = extractToDo(blocks);
     const paragraphs = extractParagraphs(blocks);
     const bulletedListItems = extractBulletedList(blocks);
@@ -46,7 +43,7 @@ export default async function Page({ params }: { params: { id: string } }) {
             <main className="">
                 <div className="flex flex-col-reverse lg:flex-row lg:items-start lg:justify-between gap-4">
                     <div className="flex flex-col flex-grow m-2 p-4 lg:flex-grow-0 rounded-xl bg-background2/10 boxShadow">
-                        <div className="p-4 w-full rounded-xl innerBoxShadow max-sm:text-center">
+                        <div className="p-4 w-full max-sm:text-center">
                             <HeadingsDisplay
                                 text={headings[0].text}
                                 level="h2"
@@ -61,7 +58,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                     />
                 </div>
                 <div className="flex flex-col flex-grow m-2 p-4 lg:flex-grow-0 rounded-xl bg-background2/10 boxShadow">
-                    <div className="p-4 w-full rounded-xl innerBoxShadow max-sm:text-center">
+                    <div className="p-4 w-full max-sm:text-center">
                         <HeadingsDisplay text={headings[1].text} level="h2" />
                     </div>
                     {/* Affichage des paragraphes, listes à puces et listes numérotées seulement si au moins un est présent */}

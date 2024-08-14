@@ -15,7 +15,7 @@ const ToDoList: React.FC<ToDoListProps> = ({ toDos }) => {
     if (toDos.length === 0) return null; // Ne rien afficher si aucune donnée
 
     return (
-        <ul className="list-disc px-8 pb-4">
+        <ul className="list-disc pl-4">
             {toDos.map((todo, index) => {
                 // Convertir les retours à la ligne en <br /> HTML
                 const textWithBreaks = todo.text.replace(/\n/g, "<br />");

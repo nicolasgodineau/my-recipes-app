@@ -1,6 +1,5 @@
 // app/page.tsx
 import { getDatabase } from "@lib/notion";
-import Link from "next/link";
 import RecipeLink from "@components/RecipeLink";
 
 const starRatings = ["⭐️", "⭐️⭐️", "⭐️⭐️⭐️"];
@@ -46,7 +45,7 @@ export default async function Home({
 
     return (
         <section className="w-full px-4">
-            <h1 className=" flex flex-col items-start py-10 text-primary text-4xl leading-9 lg:text-5xl font-bold">
+            <h1 className=" flex flex-col items-start px-4 py-10 text-primary text-4xl leading-9 lg:text-5xl font-bold">
                 <span>
                     Créez de délicieuses&nbsp; {""}
                     <span className="bg-gradient-to-b from-[#C0E1C2] to-[#C0E1C2] inline-block text-transparent bg-clip-text">
