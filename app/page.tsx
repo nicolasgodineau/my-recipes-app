@@ -1,7 +1,7 @@
 // app/page.tsx
-import { getDatabase } from "@/app/lib/notion";
+import { getDatabase } from "@lib/notion";
 import Link from "next/link";
-import RecipeLink from "@/app/components/RecipeLink";
+import RecipeLink from "@components/RecipeLink";
 
 const starRatings = ["⭐️", "⭐️⭐️", "⭐️⭐️⭐️"];
 

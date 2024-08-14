@@ -4,9 +4,9 @@ import {
     PageObjectResponse,
     QueryDatabaseResponse,
     BlockObjectResponse,
-    ListBlockChildrenResponse,
 } from "@notionhq/client/build/src/api-endpoints";
-import * as NotionTypes from "@/app/types/notion";
+import * as NotionTypes from "@types-app/notionTypes";
+import { formatText } from "@components/FormattedText";
 
 // Initialiser le client Notion avec le token d'authentification
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
@@ -76,22 +76,39 @@ export async function getBlocks(
     return blocks;
 }
 
-// Fonction pour extraire les titres de type "heading_2" des blocs Notion
-export const extractHeading2 = (
+// Fonction pour extraire les titres de type "heading" des blocs Notion
+export const extractHeading = (
     blocks: NotionTypes.NotionBlock[]
-): string[] => {
-    return (
-        blocks
-            // Filtrer les blocs pour ne conserver que ceux de type "heading_2"
-            .filter(
-                (block): block is NotionTypes.NotionHeading2 =>
-                    block.type === "heading_2"
-            )
-            // Extraire le texte riche du bloc et récupérer le plain_text
-            .map((block) => block.heading_2.rich_text[0]?.plain_text)
-            // Filtrer les valeurs falsy pour ne conserver que les chaînes de caractères non vides
-            .filter(Boolean)
-    );
+): NotionTypes.HeadingItem[] => {
+    return blocks
+        .filter(
+            (
+                block
+            ): block is
+                | NotionTypes.NotionHeading1
+                | NotionTypes.NotionHeading2
+                | NotionTypes.NotionHeading3 =>
+                block.type === "heading_1" ||
+                block.type === "heading_2" ||
+                block.type === "heading_3"
+        )
+        .map((block) => {
+            let text = "";
+
+            if (block.type === "heading_1") {
+                text = block.heading_1.rich_text[0]?.plain_text || "";
+            } else if (block.type === "heading_2") {
+                text = block.heading_2.rich_text[0]?.plain_text || "";
+            } else if (block.type === "heading_3") {
+                text = block.heading_3.rich_text[0]?.plain_text || "";
+            }
+
+            return {
+                text,
+                type: block.type,
+            };
+        })
+        .filter((item) => item.text !== "");
 };
 
 // Fonction pour extraire le titre d'une propriété de type "title"
@@ -119,47 +136,6 @@ export const extractUrl = (element: any): string => {
     return ""; // Retourne une chaîne vide si aucune URL n'est trouvée
 };
 
-// Fonction d'extraction pour les blocs "to_do"
-export const extractToDo = (
-    blocks: NotionTypes.NotionBlock[]
-): { text: string; checked: boolean }[] => {
-    return blocks
-        .filter(
-            (block): block is NotionTypes.NotionToDo => block.type === "to_do"
-        )
-        .map((block) => ({
-            text: block.to_do.rich_text[0]?.plain_text || "",
-            checked: block.to_do.checked,
-        }))
-        .filter((item) => item.text !== "");
-};
-
-// Fonction d'extraction pour les blocs "bulleted_list_item"
-export const extractBulletedList = (
-    blocks: NotionTypes.NotionBlock[]
-): string[] => {
-    return blocks
-        .filter(
-            (block): block is NotionTypes.NotionBulletedList =>
-                block.type === "bulleted_list_item"
-        )
-        .map((block) => block.bulleted_list_item.rich_text[0]?.plain_text || "")
-        .filter((text) => text !== "");
-};
-
-// Fonction d'extraction pour les blocs "numbered_list_item"
-export const extractNumberedList = (
-    blocks: NotionTypes.NotionBlock[]
-): string[] => {
-    return blocks
-        .filter(
-            (block): block is NotionTypes.NotionNumberedList =>
-                block.type === "numbered_list_item"
-        )
-        .map((block) => block.numbered_list_item.rich_text[0]?.plain_text || "")
-        .filter((text) => text !== "");
-};
-
 // Fonction d'extraction pour les blocs "paragraph" avec mise en forme
 export const extractParagraphs = (
     blocks: NotionTypes.NotionBlock[]
@@ -172,27 +148,62 @@ export const extractParagraphs = (
         .map((block) => ({
             // Concaténer tous les éléments rich_text avec mise en forme
             formattedText: block.paragraph.rich_text
-                .map((richText) => {
-                    let text = richText.plain_text;
-                    if (richText.annotations.bold) {
-                        text = `<strong>${text}</strong>`;
-                    }
-                    if (richText.annotations.italic) {
-                        text = `<em>${text}</em>`;
-                    }
-                    if (richText.annotations.strikethrough) {
-                        text = `<s>${text}</s>`;
-                    }
-                    if (richText.annotations.underline) {
-                        text = `<u>${text}</u>`;
-                    }
-                    if (richText.annotations.code) {
-                        text = `<code>${text}</code>`;
-                    }
-                    return text;
-                })
+                .map(formatText) // Utiliser la fonction formatText
                 .join(""),
         }))
+        .filter((item) => item.formattedText !== "");
+};
+
+// Fonction d'extraction pour les blocs "to_do" avec mise en forme
+export const extractToDo = (
+    blocks: NotionTypes.NotionBlock[]
+): { text: string; checked: boolean }[] => {
+    return blocks
+        .filter(
+            (block): block is NotionTypes.NotionToDo => block.type === "to_do"
+        )
+        .map((block) => ({
+            text: block.to_do.rich_text.map(formatText).join(""), // Utiliser la fonction formatText
+            checked: block.to_do.checked,
+        }))
+        .filter((item) => item.text !== "");
+};
+
+// Fonction d'extraction pour les blocs "bulleted_list_item" avec mise en forme
+export const extractBulletedList = (
+    blocks: NotionTypes.NotionBlock[]
+): { formattedText: string }[] => {
+    return blocks
+        .filter(
+            (block): block is NotionTypes.NotionBulletedList =>
+                block.type === "bulleted_list_item"
+        )
+        .map((block) => {
+            const formattedText = block.bulleted_list_item.rich_text
+                .map(formatText)
+                .join("");
+
+            return { formattedText };
+        })
+        .filter((item) => item.formattedText !== "");
+};
+
+// Fonction d'extraction pour les blocs "numbered_list_item"
+export const extractNumberedList = (
+    blocks: NotionTypes.NotionBlock[]
+): { formattedText: string }[] => {
+    return blocks
+        .filter(
+            (block): block is NotionTypes.NotionNumberedList =>
+                block.type === "numbered_list_item"
+        )
+        .map((block) => {
+            const formattedText = block.numbered_list_item.rich_text
+                .map(formatText)
+                .join(""); // Concaténer les morceaux de texte formatés
+
+            return { formattedText };
+        })
         .filter((item) => item.formattedText !== "");
 };
 

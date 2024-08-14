@@ -13,7 +13,7 @@ export interface NotionText {
         strikethrough: boolean;
         underline: boolean;
         code: boolean;
-        color: string; // Si tu as besoin d'utiliser la couleur
+        color: string; // Si besoin d'utiliser la couleur
     };
     href?: string | null; // Si le texte peut contenir des liens
 }
@@ -27,12 +27,35 @@ export interface NotionBlock {
 // Type pour un tableau de blocs Notion
 export type NotionBlocks = NotionBlock[];
 
-// Interface spécifique pour les blocs de type "heading_2"
-export interface NotionHeading2 {
-    type: "heading_2"; // Type du bloc
-    heading_2: {
-        rich_text: NotionText[]; // Liste des textes riches dans le bloc
+// Interface spécifique pour les blocs de type "heading"
+export type NotionHeading = NotionHeading1 | NotionHeading2 | NotionHeading3;
+export type HeadingLevel = "h1" | "h2" | "h3";
+// Type pour un bloc de titre
+export interface NotionHeading1 {
+    type: "heading_1";
+    heading_1: {
+        rich_text: NotionText[];
     };
+}
+
+export interface NotionHeading2 {
+    type: "heading_2";
+    heading_2: {
+        rich_text: NotionText[];
+    };
+}
+
+export interface NotionHeading3 {
+    type: "heading_3";
+    heading_3: {
+        rich_text: NotionText[];
+    };
+}
+
+// Type pour la sortie de l'extraction des titres
+export interface HeadingItem {
+    text: string;
+    type: "heading_1" | "heading_2" | "heading_3";
 }
 
 // Interface pour représenter un fichier Notion

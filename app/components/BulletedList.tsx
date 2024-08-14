@@ -1,25 +1,23 @@
-// components/ParagraphsDisplay.tsx
+// components/BulletedList.tsx
 import React from "react";
 import DOMPurify from "isomorphic-dompurify";
 
-interface ParagraphProps {
+interface BulletedListItemProps {
     formattedText: string;
 }
 
-interface ParagraphsDisplayProps {
-    paragraphs: ParagraphProps[];
+interface BulletedListProps {
+    items: BulletedListItemProps[];
 }
 
-const ParagraphsDisplay: React.FC<ParagraphsDisplayProps> = ({
-    paragraphs,
-}) => {
-    if (paragraphs.length === 0) return null; // Ne rien afficher si aucune donnée
+const BulletedList: React.FC<BulletedListProps> = ({ items }) => {
+    if (items.length === 0) return null; // Ne rien afficher si aucune donnée
 
     return (
-        <ul className="pb-4">
-            {paragraphs.map((para, index) => {
+        <ul className="list-disc pl-5 mt-8">
+            {items.map((item, index) => {
                 // Convertir les retours à la ligne en <br /> HTML
-                const textWithBreaks = para.formattedText.replace(
+                const textWithBreaks = item.formattedText.replace(
                     /\n/g,
                     "<br />"
                 );
@@ -28,9 +26,9 @@ const ParagraphsDisplay: React.FC<ParagraphsDisplayProps> = ({
                 const sanitizedHTML = DOMPurify.sanitize(textWithBreaks);
 
                 return (
-                    <li key={index} className="my-2">
-                        <p
-                            className="my-2"
+                    <li key={index} className="mb-2">
+                        <div
+                            className="mb-1 pl-2"
                             dangerouslySetInnerHTML={{
                                 __html: sanitizedHTML,
                             }}
@@ -42,4 +40,4 @@ const ParagraphsDisplay: React.FC<ParagraphsDisplayProps> = ({
     );
 };
 
-export default ParagraphsDisplay;
+export default BulletedList;
