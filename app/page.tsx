@@ -4,6 +4,7 @@ import RecipeLink from "@components/RecipeLink";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import StarIcon from "./components/StarIcon";
+import StarRatingSelector from "./components/StarRatingSelector";
 
 const starRatings = [1, 2, 3];
 const starRatingCodes: { [key: number]: string } = {
@@ -69,35 +70,8 @@ export default async function Home({
                 <div className="max-w-5xl flex flex-col items-center flex-wrap gap-4">
                     <div className="flex flex-row flex-wrap gap-2">
                         {/* Création des liens de filtrage avec les étoiles */}
-                        {starRatings.map((rating, index) => (
-                            <Button
-                                key={index}
-                                as={Link}
-                                href={`/?classement=${starRatingCodes[rating]}`}
-                                size="sm"
-                                radius="full"
-                                variant="shadow"
-                                className="bg-primary/10 text-primary text-sm flex items-center gap-1"
-                            >
-                                {Array.from({ length: rating }).map((_, i) => (
-                                    <StarIcon
-                                        key={i}
-                                        className="fill-primary"
-                                    />
-                                ))}
-                            </Button>
-                        ))}
 
-                        <Button
-                            as={Link}
-                            href="/"
-                            size="sm"
-                            radius="full"
-                            variant="shadow"
-                            className="bg-primary/10 text-primary text-sm "
-                        >
-                            Reset
-                        </Button>
+                        <StarRatingSelector />
                     </div>
                     <div className="flex flex-row flex-wrap gap-2">
                         {uniqueMotsClesList.map((motCle, index) => (
