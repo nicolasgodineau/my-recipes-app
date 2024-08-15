@@ -11,9 +11,20 @@
 }
 
 .innerBoxShadow {
-    box-shadow: inset 10px 10px 10px #c0c0c04b, inset -10px -10px 10px #ffffffb6;
+    box-shadow: inset 10px 10px 10px #c0c0c0c3, inset -10px -10px 10px #ffffffae;
 }
 
 .buttonShadow {
     box-shadow: 6px 6px 12px #cecece, -6px -6px 12px #ffffff;
+}
+
+/* Classe par défaut pour le bouton */
+.button-custom {
+    box-shadow: 10px 10px 10px #c0c0c0c3, -10px -10px 10px #ffffffae;
+    transition: box-shadow 0.3s ease;
+}
+
+/* Classe pour le style lorsque le bouton est cliqué (active) */
+.button-custom:active {
+    box-shadow: inset 10px 10px 10px #c0c0c086, inset -10px -10px 10px #ffffff70;
 }
