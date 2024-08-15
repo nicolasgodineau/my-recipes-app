@@ -2,16 +2,7 @@
 import { getDatabase } from "@lib/notion";
 import RecipeLink from "@components/RecipeLink";
 import { Button } from "@nextui-org/react";
-import Link from "next/link";
-import StarIcon from "./components/StarIcon";
 import StarRatingSelector from "./components/StarRatingSelector";
-
-const starRatings = [1, 2, 3];
-const starRatingCodes: { [key: number]: string } = {
-    1: "1etoile",
-    2: "2etoiles",
-    3: "3etoiles",
-};
 
 // Fonction pour obtenir la valeur de classement à partir de l'URL
 const getClassName = (encodedClass: string | null): string => {
@@ -69,8 +60,7 @@ export default async function Home({
             <main className="w-full flex flex-col gap-8 pt-4 items-center justify-center ">
                 <div className="max-w-5xl flex flex-col items-center flex-wrap gap-4">
                     <div className="flex flex-row flex-wrap gap-2">
-                        {/* Création des liens de filtrage avec les étoiles */}
-
+                        {/* Filtrage avec les étoiles */}
                         <StarRatingSelector />
                     </div>
                     <div className="flex flex-row flex-wrap gap-2">
