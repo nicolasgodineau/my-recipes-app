@@ -3,6 +3,8 @@ import { getDatabase } from "@lib/notion";
 import RecipeLink from "@components/RecipeLink";
 import { Button } from "@nextui-org/react";
 import StarRatingSelector from "./components/StarRatingSelector";
+import { Accordion, AccordionItem } from "@nextui-org/accordion";
+import FilterRecipe from "./components/FilterRecipe";
 
 // Fonction pour obtenir la valeur de classement à partir de l'URL
 const getClassName = (encodedClass: string | null): string => {
@@ -58,26 +60,8 @@ export default async function Home({
             </header>
             <div></div>
             <main className="w-full flex flex-col gap-8 pt-4 items-center justify-center ">
-                <div className="max-w-5xl flex flex-col items-center flex-wrap gap-4">
-                    <div className="flex flex-row flex-wrap gap-2">
-                        {/* Filtrage avec les étoiles */}
-                        <StarRatingSelector />
-                    </div>
-                    <div className="flex flex-row flex-wrap gap-2">
-                        {uniqueMotsClesList.map((motCle, index) => (
-                            <Button
-                                key={index}
-                                size="sm"
-                                radius="full"
-                                variant="shadow"
-                                className="bg-primary/10 text-primary text-sm "
-                            >
-                                {motCle}
-                            </Button>
-                        ))}
-                    </div>
-                </div>
-                <div className="grid gap-10 sm:grid-cols-1 lg:grid-cols-3 ">
+                <FilterRecipe uniqueMotsClesList={uniqueMotsClesList} />
+                <div className="w-full grid place-items-center sm:gap-10 sm:grid-cols-1 lg:grid-cols-3 ">
                     {recipesList.map((recipe) => (
                         <RecipeLink key={recipe.id} recipe={recipe} />
                     ))}

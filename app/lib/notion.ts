@@ -6,7 +6,7 @@ import {
     BlockObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import * as NotionTypes from "@types-app/notionTypes";
-import { formatText } from "@components/FormattedText";
+import { formatText } from "@components/blocks/FormattedText";
 import { convertCodeToStars } from "@lib/utils";
 
 // Initialiser le client Notion avec le token d'authentification

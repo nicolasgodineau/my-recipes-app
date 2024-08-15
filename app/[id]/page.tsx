@@ -11,11 +11,11 @@ import {
     extractNumberedList,
 } from "@lib/notion";
 import BackButton from "@components/BackButton";
-import ParagraphsDisplay from "@components/ParagraphsDisplay";
-import ToDoList from "@components/ToDoList";
-import BulletedList from "@components/BulletedList";
-import NumberedList from "@components/NumberedList";
-import HeadingsDisplay from "@components/HeadingsDisplay";
+import ParagraphsDisplay from "@/app/components/blocks/ParagraphsDisplay";
+import ToDoList from "@/app/components/blocks/ToDoList";
+import BulletedList from "@/app/components/blocks/BulletedList";
+import NumberedList from "@/app/components/blocks/NumberedList";
+import HeadingsDisplay from "@/app/components/blocks/HeadingsDisplay";
 
 export default async function Page({ params }: { params: { id: string } }) {
     const pageId = params.id;

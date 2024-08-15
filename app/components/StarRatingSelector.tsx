@@ -1,9 +1,9 @@
-// StarRatingSelector.tsx
+// components/StarRatingFilter.tsx
 "use client";
-import { useState } from "react";
 import Link from "next/link";
 import StarIcon from "@components/StarIcon";
 import { Button } from "@nextui-org/react";
+import { useStarRating } from "@context/StarRatingContext";
 
 const starRatings = [1, 2, 3];
 const starRatingCodes: { [key: number]: string } = {
@@ -13,18 +13,13 @@ const starRatingCodes: { [key: number]: string } = {
 };
 
 const StarRatingFilter = () => {
-    const [selectedRating, setSelectedRating] = useState<number | null>(null);
-    console.log("selectedRating:", selectedRating);
-
-    const resetFilter = () => {
-        setSelectedRating(null);
-    };
+    const { selectedRating, setSelectedRating } = useStarRating();
 
     return (
         <div className="flex flex-row flex-wrap gap-2">
-            {starRatings.map((rating, index) => (
+            {starRatings.map((rating) => (
                 <Button
-                    key={index}
+                    key={rating}
                     as={Link}
                     href={`/?classement=${starRatingCodes[rating]}`}
                     size="sm"
@@ -32,8 +27,8 @@ const StarRatingFilter = () => {
                     variant="shadow"
                     className={`${
                         selectedRating === rating
-                            ? "bg-primary"
-                            : "bg-primary/10"
+                            ? "bg-primary text-white"
+                            : "bg-primary/10 text-primary"
                     } text-sm flex items-center gap-1`}
                     onClick={() => setSelectedRating(rating)}
                 >
@@ -42,26 +37,13 @@ const StarRatingFilter = () => {
                             key={i}
                             className={`${
                                 selectedRating === rating
-                                    ? "fill-background2/80"
+                                    ? "fill-white"
                                     : "fill-primary"
-                            } text-sm flex items-center gap-1`}
+                            }`}
                         />
                     ))}
                 </Button>
             ))}
-
-            {/* Bouton "Reset" */}
-            <Button
-                as={Link}
-                href="/"
-                size="sm"
-                radius="full"
-                variant="shadow"
-                className="bg-primary/10 text-primary text-sm"
-                onClick={resetFilter}
-            >
-                Reset
-            </Button>
         </div>
     );
 };

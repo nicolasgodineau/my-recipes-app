@@ -59,7 +59,7 @@ const RecipeLink: React.FC<RecipeLinkProps> = ({ recipe }) => {
             key={recipe.id}
             as={Link}
             href={`/${recipe.id}`}
-            className="cursor-pointer h-96 w-72 m-2 p-4 rounded-2xl bg-background2/10 button-custom"
+            className="cursor-pointer h-96 w-72 max-sm:min-w-full p-4 rounded-2xl bg-background2/10 button-custom"
             style={{ display: "block", textAlign: "left", padding: "1rem" }}
         >
             <header className="h-2/4 w-auto rounded-2xl">
