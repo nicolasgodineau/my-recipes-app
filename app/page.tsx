@@ -61,7 +61,7 @@ export default async function Home({
             <div></div>
             <main className="w-full flex flex-col gap-8 pt-4 items-center justify-center ">
                 <FilterRecipe uniqueMotsClesList={uniqueMotsClesList} />
-                <div className="w-full grid place-items-center sm:gap-10 sm:grid-cols-1 lg:grid-cols-3 ">
+                <div className="w-full grid place-items-center gap-10 sm:grid-cols-1 lg:grid-cols-3 ">
                     {recipesList.map((recipe) => (
                         <RecipeLink key={recipe.id} recipe={recipe} />
                     ))}
