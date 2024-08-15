@@ -17,8 +17,8 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className="max-w-5xl m-auto bg-background2 font-sans antialiased text-textColor">
-                <main className="">{children}</main>
+            <body className=" bg-background2 font-sans antialiased text-textColor">
+                <main className="max-w-5xl m-auto">{children}</main>
             </body>
         </html>
     );

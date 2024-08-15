@@ -7,6 +7,7 @@ import {
 } from "@notionhq/client/build/src/api-endpoints";
 import * as NotionTypes from "@types-app/notionTypes";
 import { formatText } from "@components/FormattedText";
+import { convertCodeToStars } from "@lib/utils";
 
 // Initialiser le client Notion avec le token d'authentification
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
@@ -29,9 +30,10 @@ export async function getDatabase(
     };
 
     if (classement) {
+        const stars = convertCodeToStars(classement);
         filter.property = "Classement";
         filter.select = {
-            equals: classement,
+            equals: stars,
         };
     }
 
