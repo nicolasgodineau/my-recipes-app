@@ -23,6 +23,7 @@
             "@components/*": ["app/components/*"],
             "@lib/*": ["app/lib/*"],
             "@hooks/*": ["app/hooks/*"],
+            "@context/*": ["app/context/*"],
             "@types-app/*": ["app/types/*"]
         }
     },
