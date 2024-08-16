@@ -14,7 +14,7 @@ const BulletedList: React.FC<BulletedListProps> = ({ items }) => {
     if (items.length === 0) return null; // Ne rien afficher si aucune donnée
 
     return (
-        <ul className="list-disc pl-5 mt-8">
+        <ul className="list-disc pl-4">
             {items.map((item, index) => {
                 // Convertir les retours à la ligne en <br /> HTML
                 const textWithBreaks = item.formattedText.replace(
@@ -26,9 +26,8 @@ const BulletedList: React.FC<BulletedListProps> = ({ items }) => {
                 const sanitizedHTML = DOMPurify.sanitize(textWithBreaks);
 
                 return (
-                    <li key={index} className="mb-2">
-                        <div
-                            className="mb-1 pl-2"
+                    <li key={index} className="my-2">
+                        <span
                             dangerouslySetInnerHTML={{
                                 __html: sanitizedHTML,
                             }}

@@ -12,8 +12,12 @@ const HeadingsDisplay: React.FC<HeadingProps> = ({ text, level }) => {
         return null; // ou afficher un message d'erreur
     }
 
+    // Convertir en minuscule et mettre la première lettre en majuscule
+    let formattedText =
+        text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+
     // Convertir les retours à la ligne en <br /> HTML
-    const textWithBreaks = text.replace(/\n/g, "<br />");
+    const textWithBreaks = formattedText.replace(/\n/g, "<br />");
 
     // Assurer que le HTML est sécurisé avant d'être injecté
     const sanitizedText = DOMPurify.sanitize(textWithBreaks);
@@ -22,21 +26,22 @@ const HeadingsDisplay: React.FC<HeadingProps> = ({ text, level }) => {
         case "h1":
             return (
                 <h1
-                    className="text-4xl font-bold"
+                    className="text-4xl font-bold text-left py-10"
                     dangerouslySetInnerHTML={{ __html: sanitizedText }}
                 />
             );
         case "h2":
             return (
                 <h2
-                    className="text-3xl font-semibold"
+                    className="text-3xl font-semibold sm:text-center lg:text-left py-4"
                     dangerouslySetInnerHTML={{ __html: sanitizedText }}
                 />
             );
         case "h3":
             return (
                 <h3
-                    className="text-2xl font-medium"
+                    className="text-xl font-medium text-primary pt-4 max-w-full"
+                    style={{ whiteSpace: "normal", maxWidth: "100%" }}
                     dangerouslySetInnerHTML={{ __html: sanitizedText }}
                 />
             );

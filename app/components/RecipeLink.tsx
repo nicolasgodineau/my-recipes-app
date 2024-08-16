@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Button } from "@nextui-org/react";
 import { Chip } from "@nextui-org/chip";
 import StarIcon from "./StarIcon";
+import HeadingsDisplay from "./blocks/HeadingsDisplay";
 
 interface Recipe {
     id: string;
@@ -70,12 +71,9 @@ const RecipeLink: React.FC<RecipeLinkProps> = ({ recipe }) => {
                 />
             </header>
             <main className="h-1/4">
-                <h1
-                    className="text-xl font-medium text-primary pt-4"
-                    style={{ whiteSpace: "normal", maxWidth: "100%" }}
-                >
-                    {title}
-                </h1>
+                {" "}
+                {/* titre de la recette */}
+                <HeadingsDisplay text={title} level="h3" />
             </main>
             <footer className="h-1/4 flex flex-col justify-end gap-2">
                 <div className="flex flex-row gap-2">
