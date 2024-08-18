@@ -1,3 +1,5 @@
+import { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+
 // Interface pour représenter le titre d'une propriété Notion
 export interface NotionTitleProperty {
     type: "title";
@@ -26,6 +28,12 @@ export interface NotionBlock {
 
 // Type pour un tableau de blocs Notion
 export type NotionBlocks = NotionBlock[];
+
+// Pour la gestions des blocks apres les H2
+export type Section = {
+    heading: string;
+    blocks: BlockObjectResponse[];
+};
 
 // Interface spécifique pour les blocs de type "heading"
 export type NotionHeading = NotionHeading1 | NotionHeading2 | NotionHeading3;

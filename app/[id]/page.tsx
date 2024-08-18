@@ -2,36 +2,26 @@
 import {
     getPage,
     getBlocks,
-    extractHeading,
     extractTitle,
     extractUrl,
-    extractToDo,
-    extractParagraphs,
-    extractBulletedList,
-    extractNumberedList,
+    extractSections,
 } from "@lib/notion";
 import BackButton from "@components/BackButton";
-import ParagraphsDisplay from "@/app/components/blocks/ParagraphsDisplay";
-import ToDoList from "@/app/components/blocks/ToDoList";
-import BulletedList from "@/app/components/blocks/BulletedList";
-import NumberedList from "@/app/components/blocks/NumberedList";
 import HeadingsDisplay from "@/app/components/blocks/HeadingsDisplay";
+import InformationRecipeDisplay from "../components/InformationRecipeDisplay";
 
 export default async function Page({ params }: { params: { id: string } }) {
     const pageId = params.id;
     const page = await getPage(pageId);
     const blocks = await getBlocks(pageId);
+    // console.log("blocks:", blocks[17].numbered_list_item.rich_text[0].text);
+
+    /* Gestion des blocks apres les H2 */
+    const sections = extractSections(blocks);
 
     /* Gestion du titre et de l'url de l'image */
     const title = extractTitle(page.properties.Nom);
     const files = extractUrl(page);
-
-    /* Gestion des différents type de blocs pour l'affichage */
-    const headings = extractHeading(blocks);
-    const toDos = extractToDo(blocks);
-    const paragraphs = extractParagraphs(blocks);
-    const bulletedListItems = extractBulletedList(blocks);
-    const numberedListItems = extractNumberedList(blocks);
 
     return (
         <section className=" text-primary px-4 pb-12 lg:px-8">
@@ -43,13 +33,14 @@ export default async function Page({ params }: { params: { id: string } }) {
             <main className="">
                 <div className="flex flex-col-reverse lg:flex-row lg:items-start lg:justify-between gap-4">
                     <div className="flex flex-col flex-grow m-2 p-4 lg:flex-grow-0 rounded-xl bg-background2/10 boxShadow">
+                        {/* zone ingrédients */}
                         <div className="p-4 w-full max-sm:text-center">
                             <HeadingsDisplay
-                                text={headings[0].text}
+                                text={sections[0].heading}
                                 level="h2"
                             />
                         </div>
-                        <ToDoList toDos={toDos} />
+                        <InformationRecipeDisplay text={sections[0].blocks} />
                     </div>
                     <img
                         alt={title}
@@ -58,24 +49,14 @@ export default async function Page({ params }: { params: { id: string } }) {
                     />
                 </div>
                 <div className="flex flex-col flex-grow m-2 p-4 lg:flex-grow-0 rounded-xl bg-background2/10 boxShadow">
+                    {/* zone préparation */}
                     <div className="p-4 w-full max-sm:text-center">
-                        <HeadingsDisplay text={headings[1].text} level="h2" />
+                        <HeadingsDisplay
+                            text={sections[1].heading}
+                            level="h2"
+                        />
                     </div>
-                    {/* Affichage des paragraphes, listes à puces et listes numérotées seulement si au moins un est présent */}
-                    {(paragraphs.length > 0 ||
-                        bulletedListItems.length > 0 ||
-                        numberedListItems.length > 0) && (
-                        <>
-                            {/* Affichage des paragraphes */}
-                            <ParagraphsDisplay paragraphs={paragraphs} />
-
-                            {/* Affichage des listes à puces */}
-                            <BulletedList items={bulletedListItems} />
-
-                            {/* Affichage des listes numérotées */}
-                            <NumberedList items={numberedListItems} />
-                        </>
-                    )}
+                    <InformationRecipeDisplay text={sections[1].blocks} />
                 </div>
             </main>
         </section>

@@ -1,9 +1,6 @@
 // app/page.tsx
 import { getDatabase } from "@lib/notion";
 import RecipeLink from "@components/RecipeLink";
-import { Button } from "@nextui-org/react";
-import StarRatingSelector from "./components/StarRatingSelector";
-import { Accordion, AccordionItem } from "@nextui-org/accordion";
 import FilterRecipe from "./components/FilterRecipe";
 
 // Fonction pour obtenir la valeur de classement à partir de l'URL
@@ -50,12 +47,12 @@ export default async function Home({
             <header>
                 <h1 className="flex flex-col items-start px-4 py-10 text-primary text-4xl leading-9 lg:text-5xl font-bold">
                     <span>
-                        Créez de délicieuses&nbsp; {""}
-                        <span className="bg-gradient-to-b from-[#C0E1C2] to-[#C0E1C2] inline-block text-transparent bg-clip-text">
-                            recettes&nbsp;
+                        Créez des&nbsp; {""}
+                        <span className="bg-gradient-to-b text-6xl from-[#C0E1C2] to-[#C0E1C2] inline-block text-transparent bg-clip-text">
+                            recettes délicieuses&nbsp;
                         </span>
                     </span>
-                    <span>quelle que soit votre expérience en cuisine.</span>
+                    <span>quel que soit votre expérience en cuisine.</span>
                 </h1>
             </header>
             <div></div>

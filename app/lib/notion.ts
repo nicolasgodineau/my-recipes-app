@@ -78,10 +78,44 @@ export async function getBlocks(
     return blocks;
 }
 
+// Fonction pour extraire les blocs entre les heading_2
+export const extractSections = (
+    blocks: BlockObjectResponse[]
+): NotionTypes.Section[] => {
+    const sections: NotionTypes.Section[] = [];
+    let currentSection: NotionTypes.Section | null = null;
+
+    blocks.forEach((block) => {
+        if (block.type === "heading_2") {
+            // Quand on rencontre un nouveau heading_2, on crée une nouvelle section
+            if (currentSection) {
+                sections.push(currentSection);
+            }
+            currentSection = {
+                heading: block.heading_2.rich_text
+                    .map((text) => text.plain_text)
+                    .join(""),
+                blocks: [],
+            };
+        } else if (currentSection) {
+            // Tant qu’on est dans une section, on y ajoute les blocs suivants
+            currentSection.blocks.push(block);
+        }
+    });
+
+    // Ne pas oublier d'ajouter la dernière section
+    if (currentSection) {
+        sections.push(currentSection);
+    }
+
+    return sections;
+};
+
 // Fonction pour extraire les titres de type "heading" des blocs Notion
 export const extractHeading = (
     blocks: NotionTypes.NotionBlock[]
 ): NotionTypes.HeadingItem[] => {
+    //console.log("blocks:", blocks);
     return blocks
         .filter(
             (
@@ -208,6 +242,37 @@ export const extractNumberedList = (
         })
         .filter((item) => item.formattedText !== "");
 };
+
+export function groupNumberedListItems(
+    blocks: BlockObjectResponse[]
+): { formattedText: string }[] {
+    const groupedItems: { formattedText: string }[] = [];
+    let currentList: { formattedText: string }[] = [];
+
+    blocks.forEach((block) => {
+        if (block.type === "numbered_list_item") {
+            const formattedText = block.numbered_list_item.rich_text
+                .map(formatText)
+                .join("");
+
+            // Ajouter chaque numbered_list_item au tableau final
+            currentList.push({ formattedText });
+        } else {
+            // Si on tombe sur un bloc qui n'est pas un numbered_list_item, arrêter le groupe actuel
+            if (currentList.length > 0) {
+                groupedItems.push(...currentList);
+                currentList = [];
+            }
+        }
+    });
+
+    // Ajouter les éléments restants du dernier groupe
+    if (currentList.length > 0) {
+        groupedItems.push(...currentList);
+    }
+
+    return groupedItems;
+}
 
 // Fonction pour extraire et filtrer les mots clés uniques
 export function getUniqueMotsClesList(
