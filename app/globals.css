@@ -9,6 +9,9 @@
 .boxShadow {
     box-shadow: 10px 10px 10px #c0c0c0c3, -10px -10px 10px #ffffffae;
 }
+.boxShadow2 {
+    box-shadow: 10px 10px 10px #c0c0c06f, -10px -10px 10px #ffffff9c;
+}
 
 .innerBoxShadow {
     box-shadow: inset 10px 10px 10px #c0c0c0c3, inset -10px -10px 10px #ffffffae;

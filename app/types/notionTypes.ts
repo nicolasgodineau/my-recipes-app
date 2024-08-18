@@ -128,3 +128,8 @@ export interface PageWithMultiSelect {
         [key: string]: any;
     };
 }
+
+// interface pour les mots clés
+export interface KeywordSelectorProps {
+    keywords: string[]; // keywords est un tableau de chaînes de caractères
+}

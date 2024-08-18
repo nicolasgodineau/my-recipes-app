@@ -15,27 +15,51 @@ const cache = new Map<string, PageObjectResponse[]>();
 
 export async function getDatabase(
     databaseId: string,
-    classement?: string
+    classement?: string,
+    selectedKeyword?: string
 ): Promise<PageObjectResponse[]> {
-    const cacheKey = `${databaseId}-${classement || "all"}`;
+    const cacheKey = `${databaseId}-${classement || "all"}-${
+        selectedKeyword || "all"
+    }`;
     if (cache.has(cacheKey)) {
         return cache.get(cacheKey)!;
     }
 
-    const filter: any = {
-        property: "Types",
-        select: {
-            equals: "Salés",
+    // Filtre par défaut pour le type "Salés"
+    const filters: any[] = [
+        {
+            property: "Types",
+            select: {
+                equals: "Salés",
+            },
         },
-    };
+    ];
 
+    // Ajouter un filtre si le classement est spécifié
     if (classement) {
         const stars = convertCodeToStars(classement);
-        filter.property = "Classement";
-        filter.select = {
-            equals: stars,
-        };
+        filters.push({
+            property: "Classement",
+            select: {
+                equals: stars,
+            },
+        });
     }
+
+    // Ajouter un filtre pour les mots-clés si un mot-clé est sélectionné
+    if (selectedKeyword) {
+        filters.push({
+            property: "Mots_cles", // Assurez-vous que "MotsClés" est bien le nom de la propriété multi_select dans Notion
+            multi_select: {
+                contains: selectedKeyword,
+            },
+        });
+    }
+
+    // Combiner tous les filtres
+    const filter: any = {
+        and: filters,
+    };
 
     const response: QueryDatabaseResponse = await notion.databases.query({
         database_id: databaseId,

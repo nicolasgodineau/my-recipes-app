@@ -16,25 +16,22 @@ const getClassName = (encodedClass: string | null): string => {
 export default async function Home({
     searchParams,
 }: {
-    searchParams: { classement?: string | null };
+    searchParams: { keyword?: string | null; classement?: string | null };
 }) {
     const databaseId = process.env.NOTION_DATABASE_ID!;
     const classement = getClassName(searchParams.classement ?? null);
-    const recipesList = await getDatabase(databaseId, classement);
+    const selectedKeyword = searchParams.keyword ?? undefined;
+    // Récupérer toutes les recettes pour obtenir tous les mots-clés
+    const allRecipes = await getDatabase(databaseId, classement);
 
-    // Fonction pour extraire les noms des mots clés (ne marche pas dans le fichier lib)
-    const motsClesList: string[] = recipesList.flatMap((recipe) => {
+    // Extraire tous les mots-clés (indépendant du filtre)
+    const motsClesList: string[] = allRecipes.flatMap((recipe) => {
         if (recipe.properties.Mots_cles?.type === "multi_select") {
-            const motsCles = recipe.properties.Mots_cles;
-            // Extraire les noms des options multi_select
-            return motsCles.multi_select.map((option) => option.name);
-        } else {
-            console.error(
-                "Mots_cles n'est pas de type multi_select:",
-                recipe.properties.Mots_cles
+            return recipe.properties.Mots_cles.multi_select.map(
+                (option) => option.name
             );
-            return []; // Retourne un tableau vide si ce n'est pas un multi_select
         }
+        return [];
     });
 
     // Filtrer les doublons en utilisant un Set
@@ -42,13 +39,27 @@ export default async function Home({
         new Set(motsClesList.filter((name) => name !== ""))
     );
 
+    // Appliquer le filtre sur les recettes en fonction du mot-clé sélectionné
+    const filteredRecipes = selectedKeyword
+        ? allRecipes.filter((recipe) => {
+              const motsClesProperty = recipe.properties.Mots_cles;
+              if (motsClesProperty?.type === "multi_select") {
+                  return motsClesProperty.multi_select.some(
+                      (option: { name: string }) =>
+                          option.name === selectedKeyword
+                  );
+              }
+              return false;
+          })
+        : allRecipes;
+
     return (
         <section className="w-full px-4">
             <header>
                 <h1 className="flex flex-col items-start px-4 py-10 text-primary text-4xl leading-9 lg:text-5xl font-bold">
                     <span>
                         Créez des&nbsp; {""}
-                        <span className="bg-gradient-to-b text-6xl from-[#C0E1C2] to-[#C0E1C2] inline-block text-transparent bg-clip-text">
+                        <span className="bg-[#74b378] text-6xl  inline-block text-transparent bg-clip-text">
                             recettes délicieuses&nbsp;
                         </span>
                     </span>
@@ -59,7 +70,7 @@ export default async function Home({
             <main className="w-full flex flex-col gap-8 pt-4 items-center justify-center ">
                 <FilterRecipe uniqueMotsClesList={uniqueMotsClesList} />
                 <div className="w-full grid place-items-center gap-10 sm:grid-cols-1 lg:grid-cols-3 ">
-                    {recipesList.map((recipe) => (
+                    {filteredRecipes.map((recipe) => (
                         <RecipeLink key={recipe.id} recipe={recipe} />
                     ))}
                 </div>

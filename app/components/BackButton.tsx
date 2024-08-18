@@ -1,23 +1,21 @@
-// app/components/BackButton.tsx
-"use client"; // Indique que ce composant est un Client Component
+"use client";
 
-import { useRouter } from "next/navigation";
+import { Button } from "@nextui-org/button";
 
-const BackButton = () => {
-    const router = useRouter();
-
-    const handleBack = () => {
-        router.back(); // Retour à la page précédente
+export default function BackButton() {
+    const handleGoBack = () => {
+        window.history.back(); // Utilise l'historique du navigateur pour revenir à la page précédente
     };
 
     return (
-        <button
-            className="text-[#BA6749] bg-[#A5C7C6] font-semibold rounded-full my-5 py-1 px-36 text-center m-auto buttonShadow "
-            onClick={handleBack}
+        <Button
+            size="md"
+            radius="full"
+            variant="solid"
+            className="px-24 font-bold text-primary bg-background2/10 boxShadow2"
+            onClick={handleGoBack}
         >
             Retour
-        </button>
+        </Button>
     );
-};
-
-export default BackButton;
+}

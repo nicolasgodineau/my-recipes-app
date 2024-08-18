@@ -25,12 +25,12 @@ export default async function Page({ params }: { params: { id: string } }) {
 
     return (
         <section className=" text-primary px-4 pb-12 lg:px-8">
-            <header className="flex flex-col items-center justify-center">
+            <header className="flex flex-col items-center justify-center pt-10">
                 <BackButton />
 
                 <h1 className="text-4xl font-bold text-left py-10">{title}</h1>
             </header>
-            <main className="">
+            <main className="flex flex-col gap-4">
                 <div className="flex flex-col-reverse lg:flex-row lg:items-start lg:justify-between gap-4">
                     <div className="flex flex-col flex-grow m-2 p-4 lg:flex-grow-0 rounded-xl bg-background2/10 boxShadow">
                         {/* zone ingrédients */}
