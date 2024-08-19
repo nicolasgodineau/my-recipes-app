@@ -26,7 +26,7 @@ const BulletedList: React.FC<BulletedListProps> = ({ items }) => {
                 const sanitizedHTML = DOMPurify.sanitize(textWithBreaks);
 
                 return (
-                    <li key={index} className="my-2">
+                    <li key={index} className="my-0">
                         <span
                             dangerouslySetInnerHTML={{
                                 __html: sanitizedHTML,

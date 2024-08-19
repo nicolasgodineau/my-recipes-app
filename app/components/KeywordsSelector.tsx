@@ -1,11 +1,9 @@
 "use client";
 import Link from "next/link";
-import { KeywordSelectorProps } from "@types-app/notionTypes";
-
 import { Button } from "@nextui-org/react";
 import { useKeyword } from "@context/KeywordContext";
 
-const KeywordSelector: React.FC<KeywordSelectorProps> = ({ keywords }) => {
+const KeywordSelector: React.FC<{ keywords: string[] }> = ({ keywords }) => {
     const { selectedKeyword, setSelectedKeyword } = useKeyword();
 
     return (
@@ -25,7 +23,15 @@ const KeywordSelector: React.FC<KeywordSelectorProps> = ({ keywords }) => {
                     } text-sm flex items-center gap-1`}
                     onClick={() => setSelectedKeyword(keyword)}
                 >
-                    {keyword.charAt(0).toUpperCase() + keyword.slice(1)}
+                    <span
+                        className={`${
+                            selectedKeyword === keyword
+                                ? " text-white"
+                                : "fill-primary"
+                        }`}
+                    >
+                        {keyword.charAt(0).toUpperCase() + keyword.slice(1)}
+                    </span>
                 </Button>
             ))}
         </div>

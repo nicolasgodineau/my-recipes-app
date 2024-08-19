@@ -2,9 +2,13 @@
 
 import React, { useRef, useState } from "react";
 import Link from "next/link";
-import StarRatingSelector from "./StarRatingSelector";
+
 import { Button } from "@nextui-org/react";
+
 import { useStarRating } from "@context/StarRatingContext";
+import StarRatingSelector from "./StarRatingSelector";
+
+import { useKeyword } from "@context/KeywordContext";
 import KeywordSelector from "./KeywordsSelector";
 
 // Définition du type des props
@@ -19,17 +23,21 @@ const FilterRecipe: React.FC<FilterRecipeProps> = ({ uniqueMotsClesList }) => {
     const toggleAccordion = () => {
         if (contentRef.current) {
             if (isOpen) {
-                // Fermeture
                 contentRef.current.style.maxHeight = "0px";
             } else {
-                // Ouverture
                 contentRef.current.style.maxHeight = `${contentRef.current.scrollHeight}px`;
             }
         }
         setIsOpen(!isOpen);
     };
 
-    const { resetFilter } = useStarRating();
+    const { resetFilter: resetStarRating } = useStarRating();
+    const { resetFilter: resetKeyword } = useKeyword();
+
+    const handleReset = () => {
+        resetStarRating(); // Réinitialise le filtre d'étoiles
+        resetKeyword(); // Réinitialise le filtre de mots-clés
+    };
 
     return (
         <div className="w-full flex flex-col items-center flex-wrap rounded-2xl bg-background2/10 boxShadow2">
@@ -55,17 +63,6 @@ const FilterRecipe: React.FC<FilterRecipeProps> = ({ uniqueMotsClesList }) => {
                     </div>
                     <div className="flex flex-row flex-wrap gap-2 mt-4">
                         <KeywordSelector keywords={uniqueMotsClesList} />
-                        {/* {uniqueMotsClesList.map((motCle, index) => (
-                            <Button
-                                key={index}
-                                size="sm"
-                                radius="full"
-                                variant="shadow"
-                                className="bg-primary/10 text-primary text-sm"
-                            >
-                                {motCle}
-                            </Button>
-                        ))} */}
                     </div>
                     {/* Bouton "Reset" */}
                     <Button
@@ -76,7 +73,7 @@ const FilterRecipe: React.FC<FilterRecipeProps> = ({ uniqueMotsClesList }) => {
                         variant="ghost"
                         color="primary"
                         className="bg-primary/10 text-primary text-sm mt-4"
-                        onPress={resetFilter}
+                        onPress={handleReset}
                     >
                         Reset
                     </Button>

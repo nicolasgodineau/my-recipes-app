@@ -1,10 +1,13 @@
 "use client";
 
 import { Button } from "@nextui-org/button";
+import { useRouter } from "next/navigation";
 
 export default function BackButton() {
-    const handleGoBack = () => {
-        window.history.back(); // Utilise l'historique du navigateur pour revenir à la page précédente
+    const router = useRouter();
+
+    const handleBack = () => {
+        router.back(); // Retour à la page précédente
     };
 
     return (
@@ -13,7 +16,7 @@ export default function BackButton() {
             radius="full"
             variant="solid"
             className="px-24 font-bold text-primary bg-background2/10 boxShadow2"
-            onClick={handleGoBack}
+            onClick={handleBack}
         >
             Retour
         </Button>

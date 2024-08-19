@@ -24,17 +24,17 @@ export default async function Page({ params }: { params: { id: string } }) {
     const files = extractUrl(page);
 
     return (
-        <section className=" text-primary px-4 pb-12 lg:px-8">
-            <header className="flex flex-col items-center justify-center pt-10">
+        <section className="text-primary pb-12 lg:px-8">
+            <header className="flex flex-col items-center justify-center px-4 pt-10">
                 <BackButton />
 
                 <h1 className="text-4xl font-bold text-left py-10">{title}</h1>
             </header>
-            <main className="flex flex-col gap-4">
+            <main className="flex flex-col gap-4 md:px-4 sm:px-2">
                 <div className="flex flex-col-reverse lg:flex-row lg:items-start lg:justify-between gap-4">
                     <div className="flex flex-col flex-grow m-2 p-4 lg:flex-grow-0 rounded-xl bg-background2/10 boxShadow">
                         {/* zone ingrédients */}
-                        <div className="p-4 w-full max-sm:text-center">
+                        <div className="w-full max-sm:text-center">
                             <HeadingsDisplay
                                 text={sections[0].heading}
                                 level="h2"
@@ -50,7 +50,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                 </div>
                 <div className="flex flex-col flex-grow m-2 p-4 lg:flex-grow-0 rounded-xl bg-background2/10 boxShadow">
                     {/* zone préparation */}
-                    <div className="p-4 w-full max-sm:text-center">
+                    <div className="w-full max-sm:text-center">
                         <HeadingsDisplay
                             text={sections[1].heading}
                             level="h2"
