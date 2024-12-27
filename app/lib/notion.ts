@@ -33,6 +33,12 @@ export async function getDatabase(
                 equals: "Salés",
             },
         },
+        {
+            property: "Types",
+            select: {
+                equals: "Boulangerie",
+            },
+        },
     ];
 
     // Ajouter un filtre si le classement est spécifié
